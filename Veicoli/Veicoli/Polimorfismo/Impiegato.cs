@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Veicoli.Polimorfismo
 {
-    internal class Impiegato : Persona
+    internal class Impiegato
     {
         //TODO i campi della classe si definiscono in maniera diversa
+        public string nome;
+        public string cognome;
         public string matricola;
         public string reparto;
 
