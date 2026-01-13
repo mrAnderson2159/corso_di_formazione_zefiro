@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Veicoli.FormeGeometriche
 {
-    internal class Quadrato
+    internal class Quadrato : ICalcoloGeometrico
     {
         public double Lato { get; set; }
 
@@ -31,6 +31,16 @@ namespace Veicoli.FormeGeometriche
                 return false;
 
             return altro.Lato == Lato;
+        }
+
+        public double CalcolaArea()
+        {
+            return Math.Pow(Lato, 2);
+        }
+
+        public double CalcolaPerimetro()
+        {
+            return Lato * 4;
         }
     }
 }
