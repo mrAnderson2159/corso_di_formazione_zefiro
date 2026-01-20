@@ -12,6 +12,14 @@ namespace IndovinaIlNumeroForm.src
         public int NumeroDaIndovinare { get; private set; }
         public int Tentativi { get; private set; }
 
+        public int MaxTentativi
+        {
+            get
+            {
+                return (int)Math.Floor(Math.Log2(Massimo)) + 1;
+            }
+        }
+
         public void Reset()
         {
             Tentativi = 0;
@@ -48,18 +56,21 @@ namespace IndovinaIlNumeroForm.src
             return EnumEsito.Uguale;
         }
 
-        public string Esito(EnumEsito controllo)
-        {
-            int maxTentativi = (int)Math.Floor(Math.Log2(Massimo)) + 1;
-            string commento = Tentativi <= maxTentativi ? "Eccezionale!" : "Puoi fare di meglio...";
-
+        public static string Esito(EnumEsito controllo)
+        {           
             return controllo switch
             {
-                EnumEsito.Uguale => $"Hai vinto in {Tentativi} tentativi. {commento}",
-                EnumEsito.Maggiore => "Il numero da indovinare è più grande",
-                EnumEsito.Minore => "Il numero da indovinare è più piccolo",
+                EnumEsito.Uguale => "INDOVINATO",
+                EnumEsito.Maggiore => "Troppo piccolo",
+                EnumEsito.Minore => "Troppo grande",
                 _ => throw new Exception("L'esito può essere solo Minore, Uguale o Maggiore"),
             };
+        }
+
+        public string CommentoVittoria()
+        {
+            string commento = Tentativi <= MaxTentativi ? "Eccezionale!" : "Puoi fare di meglio...";
+            return $"Hai vinto in {Tentativi} tentativi. {commento}";
         }
     }
 }

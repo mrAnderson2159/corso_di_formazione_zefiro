@@ -33,9 +33,8 @@
             lblGiocata = new Label();
             btnGioca = new Button();
             btnAzzera = new Button();
-            lblTentativi = new Label();
-            lblListTentativi = new Label();
-            button1 = new Button();
+            btnSettings = new Button();
+            lstTentativi = new ListBox();
             SuspendLayout();
             // 
             // lblInsertNum
@@ -54,6 +53,7 @@
             txtGiocata.Location = new Point(303, 210);
             txtGiocata.Margin = new Padding(5);
             txtGiocata.Name = "txtGiocata";
+            txtGiocata.ScrollBars = RichTextBoxScrollBars.None;
             txtGiocata.Size = new Size(362, 81);
             txtGiocata.TabIndex = 2;
             txtGiocata.Text = "";
@@ -62,12 +62,12 @@
             // lblGiocata
             // 
             lblGiocata.AutoSize = true;
-            lblGiocata.Location = new Point(196, 487);
+            lblGiocata.Location = new Point(110, 336);
             lblGiocata.Margin = new Padding(5, 0, 5, 0);
             lblGiocata.Name = "lblGiocata";
-            lblGiocata.Size = new Size(629, 51);
+            lblGiocata.Size = new Size(343, 51);
             lblGiocata.TabIndex = 3;
-            lblGiocata.Text = "Il numero è più piccolo o più grande";
+            lblGiocata.Text = "Commento Vittoria";
             // 
             // btnGioca
             // 
@@ -91,43 +91,33 @@
             btnAzzera.UseVisualStyleBackColor = true;
             btnAzzera.Click += btnAzzera_Click;
             // 
-            // lblTentativi
+            // btnSettings
             // 
-            lblTentativi.AutoSize = true;
-            lblTentativi.Location = new Point(196, 389);
-            lblTentativi.Name = "lblTentativi";
-            lblTentativi.Size = new Size(179, 51);
-            lblTentativi.TabIndex = 6;
-            lblTentativi.Text = "Tentativi: ";
+            btnSettings.Font = new Font("Segoe UI", 9F);
+            btnSettings.Location = new Point(815, 12);
+            btnSettings.Name = "btnSettings";
+            btnSettings.Size = new Size(146, 40);
+            btnSettings.TabIndex = 8;
+            btnSettings.Text = "Impostazioni";
+            btnSettings.UseVisualStyleBackColor = true;
+            btnSettings.Click += button1_Click;
             // 
-            // lblListTentativi
+            // lstTentativi
             // 
-            lblListTentativi.AutoSize = true;
-            lblListTentativi.Location = new Point(381, 389);
-            lblListTentativi.Name = "lblListTentativi";
-            lblListTentativi.Size = new Size(270, 51);
-            lblListTentativi.TabIndex = 7;
-            lblListTentativi.Text = "1, 2, 3, 4, 5, 6, 7";
-            // 
-            // button1
-            // 
-            button1.Font = new Font("Segoe UI", 9F);
-            button1.Location = new Point(815, 12);
-            button1.Name = "button1";
-            button1.Size = new Size(146, 40);
-            button1.TabIndex = 8;
-            button1.Text = "Impostazioni";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            lstTentativi.Font = new Font("Segoe UI", 12F);
+            lstTentativi.FormattingEnabled = true;
+            lstTentativi.Location = new Point(110, 424);
+            lstTentativi.Name = "lstTentativi";
+            lstTentativi.Size = new Size(755, 156);
+            lstTentativi.TabIndex = 9;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(20F, 50F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(973, 743);
-            Controls.Add(button1);
-            Controls.Add(lblListTentativi);
-            Controls.Add(lblTentativi);
+            Controls.Add(lstTentativi);
+            Controls.Add(btnSettings);
             Controls.Add(btnAzzera);
             Controls.Add(btnGioca);
             Controls.Add(lblGiocata);
@@ -148,8 +138,7 @@
         private Label lblGiocata;
         private Button btnGioca;
         private Button btnAzzera;
-        private Label lblTentativi;
-        private Label lblListTentativi;
-        private Button button1;
+        private Button btnSettings;
+        private ListBox lstTentativi;
     }
 }

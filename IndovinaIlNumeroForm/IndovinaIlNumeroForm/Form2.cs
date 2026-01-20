@@ -12,17 +12,13 @@ namespace IndovinaIlNumeroForm
     public partial class Form2 : Form
     {
         private readonly Logica _logic;
-        private readonly int _initMin;
-        private readonly int _initMax;
 
         public Form2(Logica logic)
         {
             InitializeComponent();
             _logic = logic;
-            _initMin = _logic.Minimo;
-            _initMax = _logic.Massimo;
-            txtMinimo.Value = _initMin;
-            txtMassimo.Value = _initMax;
+            txtMinimo.Value = _logic.Minimo;
+            txtMassimo.Value = _logic.Massimo;
         }
 
         private void SetValues()

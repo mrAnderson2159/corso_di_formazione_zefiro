@@ -11,6 +11,8 @@ namespace IndovinaIlNumeroForm
         {
             InitializeComponent();
             Azzera();
+
+            lblGiocata.ForeColor = Color.BlueViolet;
         }
 
         private void Azzera()
@@ -19,10 +21,11 @@ namespace IndovinaIlNumeroForm
             _logic.Reset();
             btnAzzera.Enabled = false;
             btnGioca.Enabled = true;
-            txtGiocata.Text = String.Empty;
+            btnSettings.Enabled = false;
             lblGiocata.Text = String.Empty;
-            lblListTentativi.Text = String.Empty;
+            txtGiocata.Text = String.Empty;
             txtGiocata.Focus();
+            lstTentativi.Items.Clear();
             SetLblInsertNum();
         }
 
@@ -45,30 +48,30 @@ namespace IndovinaIlNumeroForm
             int numInput = input.Value;
 
             EnumEsito esito = _logic.ControllaNumero(numInput);
-            string esitoText = _logic.Esito(esito);
-
-            AggiungiTentativo(numInput);
+            string esitoText = Logica.Esito(esito);
+            AggiungiTentativo(numInput, esitoText);
 
             if (esito == EnumEsito.Uguale)
             {
-                lblGiocata.ForeColor = Color.BlueViolet;
+                
+                lblGiocata.Text = _logic.CommentoVittoria();
                 btnAzzera.Enabled = true;
                 btnGioca.Enabled = false;
+                btnSettings.Enabled = true;
             }
             else
             {
-                lblGiocata.ForeColor = Color.Black;
+                lblGiocata.Text = string.Empty;
             }
 
-            lblGiocata.Text = esitoText;
             txtGiocata.SelectAll();
             txtGiocata.Focus();
         }
 
-        private void AggiungiTentativo(int tentativo)
+        private void AggiungiTentativo(int tentativo, string esito)
         {
             _listTentativi.Add(tentativo);
-            lblListTentativi.Text = string.Join(", ", _listTentativi);
+            lstTentativi.Items.Insert(0, $"{tentativo} - {esito}");
         }
 
         private void btnGioca_Click(object sender, EventArgs e)
@@ -93,6 +96,7 @@ namespace IndovinaIlNumeroForm
         {
             Form settings = new Form2(_logic);
             settings.ShowDialog();
+
         }
     }
 }
