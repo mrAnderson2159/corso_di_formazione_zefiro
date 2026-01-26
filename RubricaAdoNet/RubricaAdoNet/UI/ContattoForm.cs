@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RubricaAdoNet.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,9 +11,25 @@ namespace RubricaAdoNet.UI
 {
     public partial class ContattoForm : Form
     {
-        public ContattoForm()
+        private readonly Contatto _source;
+
+        public ContattoForm(Contatto source)
         {
             InitializeComponent();
+            _source = source;
+            bindingSource1.DataSource = _source;
+        }
+
+        private void btnSubmit_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.OK;
+            Close();
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
     }
 }

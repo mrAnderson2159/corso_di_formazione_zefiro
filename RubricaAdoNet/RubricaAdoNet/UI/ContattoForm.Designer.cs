@@ -28,12 +28,152 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "ContattoForm";
+            components = new System.ComponentModel.Container();
+            txtNome = new TextBox();
+            txtCognome = new TextBox();
+            txtEmail = new TextBox();
+            txtNumeroCellulare = new TextBox();
+            txtNumeroFisso = new TextBox();
+            textBox6 = new TextBox();
+            txtCitta = new TextBox();
+            label1 = new Label();
+            btnSubmit = new Button();
+            btnCancel = new Button();
+            bindingSource1 = new BindingSource(components);
+            ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
+            SuspendLayout();
+            // 
+            // txtNome
+            // 
+            txtNome.DataBindings.Add(new Binding("Text", bindingSource1, "Nome", true));
+            txtNome.Location = new Point(12, 12);
+            txtNome.Name = "txtNome";
+            txtNome.PlaceholderText = "*Nome...";
+            txtNome.Size = new Size(607, 35);
+            txtNome.TabIndex = 0;
+            // 
+            // txtCognome
+            // 
+            txtCognome.DataBindings.Add(new Binding("Text", bindingSource1, "Cognome", true));
+            txtCognome.Location = new Point(12, 82);
+            txtCognome.Name = "txtCognome";
+            txtCognome.PlaceholderText = "*Cognome...";
+            txtCognome.Size = new Size(607, 35);
+            txtCognome.TabIndex = 0;
+            // 
+            // txtEmail
+            // 
+            txtEmail.DataBindings.Add(new Binding("Text", bindingSource1, "Email", true));
+            txtEmail.Location = new Point(12, 152);
+            txtEmail.Name = "txtEmail";
+            txtEmail.PlaceholderText = "Email...";
+            txtEmail.Size = new Size(607, 35);
+            txtEmail.TabIndex = 0;
+            // 
+            // txtNumeroCellulare
+            // 
+            txtNumeroCellulare.DataBindings.Add(new Binding("Text", bindingSource1, "NumeroCellulare", true));
+            txtNumeroCellulare.Location = new Point(12, 222);
+            txtNumeroCellulare.Name = "txtNumeroCellulare";
+            txtNumeroCellulare.PlaceholderText = "Numero di cellulare...";
+            txtNumeroCellulare.Size = new Size(607, 35);
+            txtNumeroCellulare.TabIndex = 0;
+            // 
+            // txtNumeroFisso
+            // 
+            txtNumeroFisso.DataBindings.Add(new Binding("Text", bindingSource1, "NumeroFisso", true));
+            txtNumeroFisso.Location = new Point(12, 292);
+            txtNumeroFisso.Name = "txtNumeroFisso";
+            txtNumeroFisso.PlaceholderText = "Numero Fisso...";
+            txtNumeroFisso.Size = new Size(607, 35);
+            txtNumeroFisso.TabIndex = 0;
+            // 
+            // textBox6
+            // 
+            textBox6.Enabled = false;
+            textBox6.Location = new Point(12, 362);
+            textBox6.Name = "textBox6";
+            textBox6.PlaceholderText = "Data di Nascita...";
+            textBox6.Size = new Size(607, 35);
+            textBox6.TabIndex = 0;
+            // 
+            // txtCitta
+            // 
+            txtCitta.DataBindings.Add(new Binding("Text", bindingSource1, "Citta", true));
+            txtCitta.Location = new Point(12, 442);
+            txtCitta.Name = "txtCitta";
+            txtCitta.PlaceholderText = "Città...";
+            txtCitta.Size = new Size(607, 35);
+            txtCitta.TabIndex = 0;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 6F);
+            label1.Location = new Point(15, 512);
+            label1.Name = "label1";
+            label1.Size = new Size(352, 19);
+            label1.TabIndex = 1;
+            label1.Text = "*I campi contrassegnati da un asterisco sono obbligatori";
+            // 
+            // btnSubmit
+            // 
+            btnSubmit.Location = new Point(418, 591);
+            btnSubmit.Name = "btnSubmit";
+            btnSubmit.Size = new Size(201, 55);
+            btnSubmit.TabIndex = 2;
+            btnSubmit.Text = "Salva";
+            btnSubmit.UseVisualStyleBackColor = true;
+            btnSubmit.Click += btnSubmit_Click;
+            // 
+            // btnCancel
+            // 
+            btnCancel.Location = new Point(15, 591);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(201, 55);
+            btnCancel.TabIndex = 3;
+            btnCancel.Text = "Annulla";
+            btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Click += btnCancel_Click;
+            // 
+            // bindingSource1
+            // 
+            bindingSource1.DataSource = typeof(Models.Contatto);
+            // 
+            // ContattoForm
+            // 
+            AutoScaleDimensions = new SizeF(12F, 30F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(631, 716);
+            Controls.Add(btnCancel);
+            Controls.Add(btnSubmit);
+            Controls.Add(label1);
+            Controls.Add(txtCitta);
+            Controls.Add(textBox6);
+            Controls.Add(txtNumeroFisso);
+            Controls.Add(txtNumeroCellulare);
+            Controls.Add(txtEmail);
+            Controls.Add(txtCognome);
+            Controls.Add(txtNome);
+            Name = "ContattoForm";
+            Text = "ContattoForm";
+            ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private TextBox txtNome;
+        private TextBox txtCognome;
+        private TextBox txtEmail;
+        private TextBox txtNumeroCellulare;
+        private TextBox txtNumeroFisso;
+        private TextBox textBox6;
+        private TextBox txtCitta;
+        private Label label1;
+        private Button btnSubmit;
+        private Button btnCancel;
+        private BindingSource bindingSource1;
     }
 }
