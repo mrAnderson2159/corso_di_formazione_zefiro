@@ -1,0 +1,95 @@
+-- DDL Generated from https:/databasediagram.com
+
+CREATE TABLE Anagrafiche (
+  Id int IDENTITY(1,1) PRIMARY KEY,
+  Nome nvarchar(100) NOT NULL,
+  Cognome nvarchar(100) NOT NULL,
+  CodiceFiscale nvarchar(20) UNIQUE,
+  DataNascita datetime NOT NULL,
+  IndirizzoResidenza nvarchar(300),
+  CittaResidenza nvarchar(100),
+  NumeroTelefono nvarchar(20),
+  Email nvarchar(100),
+  Pec nvarchar(100),
+  Sesso nvarchar(20)
+);
+
+CREATE TABLE Studenti (
+  Id int IDENTITY(1,1) PRIMARY KEY,
+  AnagraficaId int NOT NULL,
+  Matricola nvarchar(20) NOT NULL,
+  DataInserimento datetime NOT NULL,
+  StatoOccupazionale int NOT NULL,
+  FOREIGN KEY (AnagraficaId) REFERENCES Anagrafiche(Id)
+);
+
+CREATE TABLE Docenti (
+  Id int IDENTITY(1,1) PRIMARY KEY,
+  AnagraficaId int NOT NULL,
+  StatoCollaborazione int NOT NULL,
+  DataAssunzione datetime,
+  DataInserimento datetime NOT NULL,
+  Categoria nvarchar(200),
+  FOREIGN KEY (AnagraficaId) REFERENCES Anagrafiche(Id)
+);
+
+CREATE TABLE Corsi (
+  Id int IDENTITY(1,1) PRIMARY KEY,
+  Titolo nvarchar(200) NOT NULL,
+  TotaleOre int NOT NULL,
+  Finanziato bit NOT NULL,
+  EnteFinanziatore nvarchar(100),
+  DataInizio datetime NOT NULL,
+  DataFine datetime NOT NULL,
+  DataEsame datetime NOT NULL,
+  ModalitaErogazione int NOT NULL
+);
+
+CREATE TABLE DocentiCorsi (
+  Id int IDENTITY(1,1) PRIMARY KEY,
+  DocenteId int NOT NULL,
+  CorsoId int NOT NULL,
+  TotaleOrePreviste int,
+  TotaleOreEffettuate int,
+  IsDocentePrincipale bit NOT NULL,
+  FOREIGN KEY (DocenteId) REFERENCES Docenti(Id),
+  FOREIGN KEY (CorsoId) REFERENCES Corsi(Id)
+);
+
+CREATE TABLE Iscrizioni (
+  Id int IDENTITY(1,1) PRIMARY KEY,
+  StudenteId int NOT NULL,
+  CorsoId int NOT NULL,
+  DataIscrizione datetime NOT NULL,
+  Ritirato bit NOT NULL,
+  DataRitiro datetime,
+  CostoIscrizione decimal,
+  FOREIGN KEY (StudenteId) REFERENCES Studenti(Id),
+  FOREIGN KEY (CorsoId) REFERENCES Corsi(Id)
+);
+
+CREATE TABLE Lezioni (
+  Id int IDENTITY(1,1) PRIMARY KEY,
+  DocentiCorsiId int NOT NULL,
+  CorsoId int NOT NULL,
+  Data datetime NOT NULL,
+  Argomento nvarchar(100),
+  Ufc nvarchar(10) NOT NULL,
+  OrarioInizio time,
+  OrarioFine time,
+  Sede nvarchar(100),
+  Test bit NOT NULL,
+  FOREIGN KEY (DocentiCorsiId) REFERENCES DocentiCorsi(Id),
+  FOREIGN KEY (CorsoId) REFERENCES Corsi(Id)
+);
+
+CREATE TABLE Presenze (
+  Id int IDENTITY(1,1) PRIMARY KEY,
+  IscrizioneId int NOT NULL,
+  LezioneId int NOT NULL,
+  OrePresenza int NOT NULL,
+  EntraAlle time,
+  EsceAlle time,
+  FOREIGN KEY (IscrizioneId) REFERENCES Iscrizioni(Id),
+  FOREIGN KEY (LezioneId) REFERENCES Lezioni(Id)
+);

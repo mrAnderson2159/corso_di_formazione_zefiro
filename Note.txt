@@ -1,0 +1,4 @@
+Form Controls:
+	In ogni form esistono le proprieta Controls, che contengono l'insieme di tutti i "Widget" del form.
+	Da notare che un singolo control ha le proprietà Enabled e Visible, che permettono di 
+	attivare/disattivare o Mostrare/Nascondere un Widget.

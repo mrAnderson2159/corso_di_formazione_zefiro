@@ -1,0 +1,97 @@
+Table Anagrafiche {
+Id int [pk not null]
+Nome nvarchar(100) [not null]
+Cognome nvarchar(100) [not null]
+CodiceFiscale nvarchar(20) 
+DataNascita datetime [not null]
+IndirizzoResidenza nvarchar(300) 
+CittaResidenza nvarchar(100)
+NumeroTelefono nvarcher(20)
+Email nvarchar(100)
+Pec nvarchar(100)
+Sesso nvarchar(20)
+}
+ 
+Table Studenti {
+Id int [pk not null]
+AnagraficaId int [not null]
+Matricola nvarchar(20) [not null]
+DataInserimento datetime [not null]
+StatoOccupazionale int [not null]
+}
+ 
+Table Docenti {
+Id int [pk]
+AnagraficaId int [not null]
+StatoCollaborazione int [not null]
+DataAssunzione datetime
+DataInserimento datetime [not null]
+Categoria nvarchar(200) 
+}
+ 
+Table Corsi {
+Id int [pk]
+Titolo nvarchar(200) [not null]
+TotaleOre int [not null]
+Finanziato bit [not null]
+EnteFinanziatore nvarchar(100)
+DataInizio datetime [not null]
+DataFine datetime [not null]
+DataEsame datetime [not null]
+ModalitaErogazione int [not null]
+}
+ 
+Table DocentiCorsi {
+Id int [pk]
+DocenteId int [not null]
+CorsoId int [not null]
+TotaleOrePreviste int 
+TotaleOreEffettuate int 
+IsDocentePrincipale bit [not null]
+}
+ 
+Table Iscrizioni {
+Id int [pk]
+StudenteId int [not null]
+CorsoId int [not null]
+DataIscrizione datetime [not null]
+Ritirato bit [not null]
+DataRitiro datetime 
+CostoIscrizione decimal
+}
+ 
+Table Lezioni {
+Id int [pk]
+DocentiCorsiId int [not null]
+CorsoId int [not null]
+Data datetime [not null]
+Argomento nvarchar(100) 
+Ufc nvarchar(10) [not null]
+OrarioInizio time //oppure datetime
+OrarioFine time //oppure datetime
+Sede nvarchar(100) 
+Test bit [not null]
+}
+ 
+Table Presenze {
+Id int [pk]
+IscrizioneId int [not null]
+LezioneId int [not null]
+OrePresenza int [not null]
+EntraAlle time //oppure datetime
+EsceAlle time //oppure datetime
+}
+ 
+ref: DocentiCorsi.DocenteId > Docenti.Id
+ref: DocentiCorsi.CorsoId > Corsi.Id
+ref: Docenti.AnagraficaId > Anagrafiche.Id
+ref: Studenti.AnagraficaId > Anagrafiche.Id
+ref: Iscrizioni.StudenteId > Studenti.Id
+ref: Iscrizioni.CorsoId > Corsi.Id
+ref: Lezioni.DocentiCorsiId > DocentiCorsi.Id
+ref: Lezioni.CorsoId > Corsi.Id
+ref: Presenze.IscrizioneId > Iscrizioni.Id
+ref: Presenze.LezioneId > Lezioni.Id
+
+
+//POSITION({"Anagrafiche":{"x":50,"y":50,"w":246},"Studenti":{"x":330,"y":50,"w":246},"Docenti":{"x":610,"y":50,"w":254},"Corsi":{"x":50,"y":420,"w":246},"DocentiCorsi":{"x":330,"y":324,"w":254},"Iscrizioni":{"x":610,"y":356,"w":230},"Lezioni":{"x":50,"y":854,"w":230},"Presenze":{"x":330,"y":598,"w":230}})

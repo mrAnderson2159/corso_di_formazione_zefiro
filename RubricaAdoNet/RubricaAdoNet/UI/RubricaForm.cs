@@ -18,12 +18,13 @@ namespace RubricaAdoNet.UI
             InitializeComponent();
             SetListaContatti();
             bindingSource1.DataSource = _listaContatti;
+
         }
 
-        private void SetListaContatti()
+        private void SetListaContatti(List<Contatto>? newList = null)
         {
             _listaContatti.Clear();
-            _listaContatti.AddRange(ContattiRepository.GetAll());
+            _listaContatti.AddRange(newList ?? ContattiRepository.GetAll());
         }
 
         private void ReflectChanges()
@@ -39,7 +40,9 @@ namespace RubricaAdoNet.UI
 
             if (form.DialogResult == DialogResult.OK)
             {
-                if (!ContattiRepository.Insert(nuovoContatto))
+                int id = ContattiRepository.Insert(nuovoContatto);
+
+                if (id == 0)
                 {
                     MessageBox.Show(
                         "Si è verificato un errore di scrittura",
@@ -51,7 +54,8 @@ namespace RubricaAdoNet.UI
                     return;
                 }
 
-                SetListaContatti();
+                nuovoContatto.Id = id;
+                _listaContatti.Add(nuovoContatto);
                 ReflectChanges();
             }
         }
@@ -61,21 +65,32 @@ namespace RubricaAdoNet.UI
             if (bindingSource1.Current is Contatto modifica)
             {
                 Contatto clone = new();
-                clone.CloneFrom(modifica);
+                modifica.CloneTo(clone);
 
                 ContattoForm form = new(clone);
                 form.ShowDialog();
 
                 if (form.DialogResult == DialogResult.OK)
                 {
+                    if (!ContattiRepository.Update(clone))
+                    {
+                        MessageBox.Show(
+                            "Nessun dato è stato modificato",
+                            "Informazione",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information
+                        );
+
+                        return;
+                    }
+
                     modifica.CloneFrom(clone);
-                    // TODO: Inserire logica di db qui
                     ReflectChanges();
                 }
             }
         }
 
-        private void Elimina()
+        private void Elimina(object sender, EventArgs e)
         {
             if (_listaContatti.Count == 0) { return; }
 
@@ -93,10 +108,42 @@ namespace RubricaAdoNet.UI
 
                 if (dr == DialogResult.Yes)
                 {
+                    if (!ContattiRepository.Delete(selezionato))
+                    {
+                        return;
+                    }
                     _listaContatti.Remove(selezionato);
                     ReflectChanges();
                 }
             }
+        }
+
+        private void CercaPerCognome()
+        {
+            if (txtCercaCognome.Text.Length == 0)
+            {
+                SetListaContatti();
+            }
+            else
+            {
+                SetListaContatti(ContattiRepository.GetByCognome(txtCercaCognome.Text));
+            }
+
+            ReflectChanges();
+        }
+
+        private void CercaPerNumero()
+        {
+            if (txtCercaPerNumero.Text.Length == 0)
+            {
+                SetListaContatti();
+            }
+            else
+            {
+                SetListaContatti(ContattiRepository.GetByNumero(txtCercaPerNumero.Text));
+            }
+
+            ReflectChanges();
         }
 
         private void btnNew_Click(object sender, EventArgs e)
@@ -109,11 +156,6 @@ namespace RubricaAdoNet.UI
             Modifica();
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
-        {
-            Elimina();
-        }
-
         private void nuovoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Nuovo();
@@ -124,9 +166,20 @@ namespace RubricaAdoNet.UI
             Modifica();
         }
 
-        private void eliminaToolStripMenuItem_Click(object sender, EventArgs e)
+        private void txtCercaCognome_KeyDown(object sender, KeyEventArgs e)
         {
-            Elimina();
+            if (e.KeyCode == Keys.Enter)
+            {
+                CercaPerCognome();
+            }
+        }
+
+        private void txtCercaPerNumero_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                CercaPerNumero();
+            }
         }
     }
 }

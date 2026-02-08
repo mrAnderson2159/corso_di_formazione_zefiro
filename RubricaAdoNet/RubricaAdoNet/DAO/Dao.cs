@@ -92,5 +92,15 @@ namespace RubricaAdoNet.DAO
             GetCommand(out SqlCommand command, query, convertNulls: true, parameters);
             return command.ExecuteNonQuery();
         }
+
+        public int? GetLastId()
+        {
+            SqlCommand command = _sqlConnection.CreateCommand();
+
+            command.CommandText = "SELECT @@IDENTITY";
+            object? result = command.ExecuteScalar();
+
+            return result != DBNull.Value ? Convert.ToInt32(result) : null;
+        }
     }
 }

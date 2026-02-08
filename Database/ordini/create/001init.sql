@@ -1,0 +1,39 @@
+CREATE TABLE Clienti (
+    ID INT IDENTITY PRIMARY KEY,
+    Nome NVARCHAR(100) NOT NULL,
+    Cognome NVARCHAR(100) NOT NULL,
+    CodiceFiscale NVARCHAR(16),
+    PartitaIVA NVARCHAR(11),
+    Email NVARCHAR(100),
+    Telefono NVARCHAR(15),
+    Indirizzo NVARCHAR(255),
+    DataRegistrazione DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Deleted BIT NOT NULL DEFAULT(0)
+);
+
+CREATE TABLE Prodotti (
+    ID INT IDENTITY PRIMARY KEY,
+    Nome NVARCHAR(100) NOT NULL,
+    Prezzo DECIMAL(10, 2) NOT NULL,
+    InStock BIT NOT NULL DEFAULT 1,
+    Deleted BIT NOT NULL DEFAULT(0)
+);
+
+CREATE TABLE Ordini (
+    ID INT IDENTITY PRIMARY KEY,
+    ClienteID INT NOT NULL,
+    DataOrdine DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Numero NVARCHAR(20) UNIQUE NOT NULL,
+    FOREIGN KEY (ClienteID) REFERENCES Clienti(ID)
+);
+
+CREATE TABLE DettagliOrdini (
+    ID INT IDENTITY PRIMARY KEY,
+    OrdineID INT NOT NULL,
+    ProdottoID INT,
+    Quantita INT NOT NULL CHECK (Quantita > 0),
+    Prezzo DECIMAL(10, 2) NOT NULL CHECK (Prezzo >= 0),
+    Descrizione NVARCHAR(255),
+    FOREIGN KEY (OrdineID) REFERENCES Ordini(ID) ON DELETE CASCADE,
+    FOREIGN KEY (ProdottoID) REFERENCES Prodotti(ID)
+);

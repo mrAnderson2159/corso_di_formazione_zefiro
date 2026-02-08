@@ -14,7 +14,7 @@ namespace RubricaAdoNet.Models
         public string? Email { get; set; }
         public string? Citta { get; set; }
         public DateTime? DataDiNascita { get; set; }
-        public string InfoContatto { get => $"Id {Id} - {Nome} {Cognome}"; }
+        public string InfoContatto { get => $"{Cognome} {Nome}"; }
 
         public void CloneTo(Contatto clone)
         {

@@ -11,17 +11,18 @@ namespace RubricaAdoNet.DAO
         public const string ATTRS = "Nome, Cognome, NumeroCellulare, NumeroFisso, Email, DataDiNascita, Citta";
         public const string ATTRS_PARAMS = "@nome, @cognome, @numeroCellulare, @numeroFisso, @email, @dataDiNascita, @citta";
         public const string CONTATTI = "Contatti";
+        public const string ALPHA = "ORDER BY Cognome, Nome";
 
         public static List<Contatto> GetAll()
         {
-            string query = $"SELECT Id, {ATTRS} FROM {CONTATTI}"; 
+            string query = $"SELECT Id, {ATTRS} FROM {CONTATTI} ORDER BY Cognome, Nome"; 
 
             SqlDataReader reader = Dao.DAO.Read(query);
 
             return GetFromReader(reader);
         }
 
-        public static bool Insert(Contatto contatto)
+        public static int Insert(Contatto contatto)
         {
             string query = $"INSERT INTO {CONTATTI} ({ATTRS}) VALUES ({ATTRS_PARAMS})";
 
@@ -37,8 +38,79 @@ namespace RubricaAdoNet.DAO
             ];
 
             int affected = Dao.DAO.Write(query, parameters);
+            int? lastId = Dao.DAO.GetLastId();
+           
+            return affected > 0 && lastId.HasValue ? (int)lastId : 0;
+        }
 
+        public static bool Update(Contatto contatto)
+        {
+            string query = $"UPDATE {CONTATTI} SET " +
+                "Nome = @nome, " +
+                "Cognome = @cognome, " +
+                "NumeroCellulare = @numeroCellulare, " +
+                "NumeroFisso = @numeroFisso, " +
+                "Email = @email, " +
+                "DataDiNascita = @dataDiNascita, " +
+                "Citta = @citta " +
+                "WHERE Id = @id";
+
+            SqlParameter[] parameters =
+            [
+                new("nome", contatto.Nome),
+                new("cognome", contatto.Cognome),
+                new("numeroCellulare", contatto.NumeroCellulare),
+                new("numeroFisso", contatto.NumeroFisso),
+                new("email", contatto.Email),
+                new("dataDiNascita", contatto.DataDiNascita),
+                new("citta", contatto.Citta),
+                new("id", contatto.Id)
+            ];
+
+            int affected = Dao.DAO.Write(query, parameters);
             return affected > 0;
+        }
+
+        public static bool Delete(Contatto contatto)
+        {
+            string query = $"DELETE FROM {CONTATTI} WHERE Id = @id";
+
+            int id = contatto.Id;
+
+            if (id == 0)
+            {
+                return false;
+            }
+
+            SqlParameter[] parameters = [
+                new("id", id)
+             ];
+
+            int affected = Dao.DAO.Write(query, parameters);
+            return affected > 0;
+        }
+
+        public static List<Contatto> GetByCognome(string filtro)
+        {
+            string query = $"SELECT Id, {ATTRS} FROM {CONTATTI} WHERE Cognome LIKE @cognome {ALPHA}"; 
+
+            SqlParameter parameter = new("cognome", $"%{filtro}%");
+
+            SqlDataReader reader = Dao.DAO.Read(query, parameter);
+
+            return GetFromReader(reader);
+        }
+
+        public static List<Contatto> GetByNumero(string filtro)
+        {
+            string query = $"SELECT Id, {ATTRS} FROM {CONTATTI} " +
+                $"WHERE NumeroCellulare LIKE @numero OR NumeroFisso LIKE @numero {ALPHA}";
+
+            SqlParameter parameter = new("numero", $"%{filtro}%");
+
+            SqlDataReader reader = Dao.DAO.Read(query, parameter);
+
+            return GetFromReader(reader);
         }
 
         private static List<Contatto> GetFromReader(SqlDataReader reader)
